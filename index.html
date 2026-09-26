@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>
+Aurora Volume Profile Scanner
+</title>
+
+<style>
+
+body {
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    margin: 0;
+
+    background: #f5f7fa;
+
+    color: #1f2937;
+}
+
+.header {
+
+    background: #111827;
+
+    color: white;
+
+    padding: 28px 35px;
+
+}
+
+.header h1 {
+
+    margin: 0;
+
+    font-size: 28px;
+
+}
+
+.header p {
+
+    margin-top: 8px;
+
+    color: #cbd5e1;
+
+}
+
+.container {
+
+    max-width: 1500px;
+
+    margin: 25px auto;
+
+    padding: 0 20px;
+
+}
+
+.summary {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            auto-fit,
+            minmax(
+                180px,
+                1fr
+            )
+        );
+
+    gap: 15px;
+
+    margin-bottom: 25px;
+
+}
+
+.card {
+
+    background: white;
+
+    border-radius: 10px;
+
+    padding: 18px;
+
+    box-shadow:
+        0 2px 8px
+        rgba(
+            0,
+            0,
+            0,
+            0.08
+        );
+
+}
+
+.card-title {
+
+    font-size: 13px;
+
+    color: #64748b;
+
+    margin-bottom: 7px;
+
+}
+
+.card-value {
+
+    font-size: 23px;
+
+    font-weight: bold;
+
+}
+
+.table-container {
+
+    background: white;
+
+    border-radius: 10px;
+
+    box-shadow:
+        0 2px 8px
+        rgba(
+            0,
+            0,
+            0,
+            0.08
+        );
+
+    overflow-x: auto;
+
+}
+
+table {
+
+    width: 100%;
+
+    border-collapse: collapse;
+
+    min-width: 1200px;
+
+}
+
+th {
+
+    background: #e5e7eb;
+
+    padding: 12px;
+
+    text-align: right;
+
+    font-size: 13px;
+
+    white-space: nowrap;
+
+}
+
+th:first-child,
+td:first-child {
+
+    text-align: left;
+
+}
+
+td {
+
+    padding: 11px 12px;
+
+    border-top:
+        1px solid #e5e7eb;
+
+    text-align: right;
+
+    font-size: 13px;
+
+    white-space: nowrap;
+
+}
+
+tr:hover {
+
+    background: #f8fafc;
+
+}
+
+.stock-link {
+
+    font-weight: bold;
+
+    color: #2563eb;
+
+    text-decoration: none;
+
+}
+
+.stock-link:hover {
+
+    text-decoration: underline;
+
+}
+
+.footer {
+
+    margin-top: 25px;
+
+    padding: 20px;
+
+    color: #64748b;
+
+    font-size: 12px;
+
+    text-align: center;
+
+}
+
+.note {
+
+    background: white;
+
+    border-left:
+        4px solid #2563eb;
+
+    padding: 15px 18px;
+
+    margin-bottom: 20px;
+
+    border-radius: 5px;
+
+    font-size: 14px;
+
+}
+
+.loading {
+
+    padding: 30px;
+
+    text-align: center;
+
+}
+
+.error {
+
+    padding: 25px;
+
+    color: #b91c1c;
+
+    background: #fee2e2;
+
+    border-radius: 8px;
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="header">
+
+    <h1>
+        Aurora Volume Profile Scanner
+    </h1>
+
+    <p>
+        Nifty 200 • Daily Chart •
+        Five 30-Session Value Profiles
+    </p>
+
+</div>
+
+
+<div class="container">
+
+
+<div id="summary"
+     class="summary">
+
+    <div class="card">
+
+        <div class="card-title">
+            Last Data Capture
+        </div>
+
+        <div id="capture"
+             class="card-value">
+            Loading...
+        </div>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="card-title">
+            Stocks Processed
+        </div>
+
+        <div id="processed"
+             class="card-value">
+            -
+        </div>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="card-title">
+            Five Profiles Generated
+        </div>
+
+        <div id="profiles"
+             class="card-value">
+            -
+        </div>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="card-title">
+            Final Candidates
+        </div>
+
+        <div id="candidates"
+             class="card-value">
+            -
+        </div>
+
+    </div>
+
+</div>
+
+
+<div class="note">
+
+    <strong>
+        Scanner structure:
+    </strong>
+
+    Five overlapping 30-session
+    Volume Profiles, shifted by
+    5 sessions, using a 70% Value Area.
+
+    Candidates satisfy both the historical
+    Contained + Rotational structure test
+    and the latest-profile stability test.
+
+    Click a stock to open its
+    TradingView daily chart.
+
+</div>
+
+
+<div class="table-container">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Stock</th>
+
+<th>Current Price</th>
+
+<th>VAL</th>
+
+<th>POC</th>
+
+<th>VAH</th>
+
+<th>VA Centre</th>
+
+<th>VA Width</th>
+
+<th>VAL Range %</th>
+
+<th>POC Range %</th>
+
+<th>VAH Range %</th>
+
+<th>Centre Range %</th>
+
+<th>Directional Efficiency</th>
+
+<th>Latest Centre Displacement %</th>
+
+<th>Distance from VAL %</th>
+
+<th>Distance from POC %</th>
+
+<th>Distance from VAH %</th>
+
+</tr>
+
+</thead>
+
+
+<tbody id="candidate-table">
+
+<tr>
+
+<td colspan="16"
+    class="loading">
+
+Loading scanner data...
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+
+<div class="footer">
+
+    Aurora Volume Profile Scanner
+
+    <br><br>
+
+    Data is generated automatically
+    from the Nifty 200 daily universe.
+
+</div>
+
+
+</div>
+
+
+<script>
+
+
+// ============================================================
+// LOAD SUMMARY
+// ============================================================
+
+async function loadSummary() {
+
+    const response =
+        await fetch(
+            "scan_summary.json?t="
+            + Date.now()
+        );
+
+    if (!response.ok) {
+
+        throw new Error(
+            "Unable to load scan summary."
+        );
+
+    }
+
+    return await response.json();
+
+}
+
+
+// ============================================================
+// LOAD CANDIDATES
+// ============================================================
+
+async function loadCandidates() {
+
+    const response =
+        await fetch(
+            "aurora_candidates.csv?t="
+            + Date.now()
+        );
+
+    if (!response.ok) {
+
+        throw new Error(
+            "Unable to load candidate CSV."
+        );
+
+    }
+
+    return await response.text();
+
+}
+
+
+// ============================================================
+// CSV PARSER
+// ============================================================
+
+function parseCSV(text) {
+
+    const rows = [];
+
+    let row = [];
+
+    let value = "";
+
+    let insideQuotes = false;
+
+
+    for (
+        let i = 0;
+        i < text.length;
+        i++
+    ) {
+
+        const character =
+            text[i];
+
+
+        if (
+            character === '"'
+        ) {
+
+            if (
+                insideQuotes
+                &&
+                text[i + 1] === '"'
+            ) {
+
+                value += '"';
+
+                i++;
+
+            } else {
+
+                insideQuotes =
+                    !insideQuotes;
+
+            }
+
+        }
+
+        else if (
+            character === ","
+            &&
+            !insideQuotes
+        ) {
+
+            row.push(value);
+
+            value = "";
+
+        }
+
+        else if (
+            (
+                character === "\n"
+                ||
+                character === "\r"
+            )
+            &&
+            !insideQuotes
+        ) {
+
+            if (
+                character === "\r"
+                &&
+                text[i + 1] === "\n"
+            ) {
+
+                i++;
+
+            }
+
+            row.push(value);
+
+            value = "";
+
+            if (
+                row.length > 1
+                ||
+                row[0] !== ""
+            ) {
+
+                rows.push(row);
+
+            }
+
+            row = [];
+
+        }
+
+        else {
+
+            value += character;
+
+        }
+
+    }
+
+
+    if (
+        value.length > 0
+        ||
+        row.length > 0
+    ) {
+
+        row.push(value);
+
+        rows.push(row);
+
+    }
+
+
+    return rows;
+
+}
+
+
+// ============================================================
+// FORMAT NUMBER
+// ============================================================
+
+function number(value) {
+
+    if (
+        value === null
+        ||
+        value === undefined
+        ||
+        value === ""
+    ) {
+
+        return "-";
+
+    }
+
+    const n =
+        Number(value);
+
+    if (
+        Number.isNaN(n)
+    ) {
+
+        return value;
+
+    }
+
+    return n.toFixed(2);
+
+}
+
+
+// ============================================================
+// TRADINGVIEW LINK
+// ============================================================
+
+function tradingViewURL(stock) {
+
+    return (
+        "https://www.tradingview.com/chart/"
+        +
+        "?symbol=NSE%3A"
+        +
+        encodeURIComponent(stock)
+    );
+
+}
+
+
+// ============================================================
+// BUILD TABLE
+// ============================================================
+
+function buildTable(csvText) {
+
+    const rows =
+        parseCSV(csvText);
+
+
+    if (
+        rows.length < 2
+    ) {
+
+        throw new Error(
+            "No candidate data available."
+        );
+
+    }
+
+
+    const headers =
+        rows[0];
+
+
+    const data =
+        rows.slice(1);
+
+
+    const tbody =
+        document.getElementById(
+            "candidate-table"
+        );
+
+
+    tbody.innerHTML = "";
+
+
+    data.forEach(
+        function(row) {
+
+
+            const record = {};
+
+
+            headers.forEach(
+                function(header, index) {
+
+                    record[header] =
+                        row[index];
+
+                }
+            );
+
+
+            const tr =
+                document.createElement(
+                    "tr"
+                );
+
+
+            tr.innerHTML = `
+
+                <td>
+
+                    <a
+                        class="stock-link"
+                        href="${tradingViewURL(record["Stock"])}"
+                        target="_blank"
+                        rel="noopener"
+                    >
+                        ${record["Stock"]}
+                    </a>
+
+                </td>
+
+                <td>
+                    ${number(record["Current Price"])}
+                </td>
+
+                <td>
+                    ${number(record["VAL"])}
+                </td>
+
+                <td>
+                    ${number(record["POC"])}
+                </td>
+
+                <td>
+                    ${number(record["VAH"])}
+                </td>
+
+                <td>
+                    ${number(record["VA Centre"])}
+                </td>
+
+                <td>
+                    ${number(record["VA Width"])}
+                </td>
+
+                <td>
+                    ${number(record["VAL Range %"])}
+                </td>
+
+                <td>
+                    ${number(record["POC Range %"])}
+                </td>
+
+                <td>
+                    ${number(record["VAH Range %"])}
+                </td>
+
+                <td>
+                    ${number(record["Centre Range %"])}
+                </td>
+
+                <td>
+                    ${number(record["Directional Efficiency"])}
+                </td>
+
+                <td>
+                    ${number(record["Latest Centre Displacement %"])}
+                </td>
+
+                <td>
+                    ${number(record["Distance from VAL %"])}
+                </td>
+
+                <td>
+                    ${number(record["Distance from POC %"])}
+                </td>
+
+                <td>
+                    ${number(record["Distance from VAH %"])}
+                </td>
+
+            `;
+
+
+            tbody.appendChild(
+                tr
+            );
+
+        }
+    );
+
+}
+
+
+// ============================================================
+// INITIALISE PAGE
+// ============================================================
+
+async function initialise() {
+
+    try {
+
+        const summary =
+            await loadSummary();
+
+
+        document.getElementById(
+            "capture"
+        ).textContent =
+            summary.capture_timestamp;
+
+
+        document.getElementById(
+            "processed"
+        ).textContent =
+            summary.stocks_processed;
+
+
+        document.getElementById(
+            "profiles"
+        ).textContent =
+            summary.profiles_generated;
+
+
+        document.getElementById(
+            "candidates"
+        ).textContent =
+            summary.final_candidates;
+
+
+        const csv =
+            await loadCandidates();
+
+
+        buildTable(csv);
+
+    }
+
+    catch (error) {
+
+        document.getElementById(
+            "candidate-table"
+        ).innerHTML = `
+
+            <tr>
+
+                <td
+                    colspan="16"
+                    class="error"
+                >
+
+                    ${error.message}
+
+                </td>
+
+            </tr>
+
+        `;
+
+    }
+
+}
+
+
+initialise();
+
+
+</script>
+
+
+</body>
+
+</html>
