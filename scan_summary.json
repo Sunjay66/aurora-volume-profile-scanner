@@ -9,19 +9,23 @@
   "value_area_percentage": 0.7,
   "stocks_processed": 200,
   "profiles_generated": 1000,
-  "historical_candidates": 43,
-  "latest_stable_candidates": 28,
-  "final_candidates": 9,
-  "capture_timestamp": "2026-10-08 11:09:24",
+  "historical_candidates": 46,
+  "latest_stable_candidates": 34,
+  "final_candidates": 13,
+  "capture_timestamp": "2026-10-09 17:17:03",
   "final_candidate_stocks": [
+    "AUROPHARMA",
     "AXISBANK",
+    "DRREDDY",
     "ETERNAL",
     "INDHOTEL",
-    "NHPC",
+    "IOC",
+    "MANKIND",
     "OIL",
-    "POLYCAB",
     "SUNPHARMA",
+    "TATACOMM",
     "TATASTEEL",
-    "TORNTPHARM"
+    "TORNTPHARM",
+    "WAAREEENER"
   ]
 }
