@@ -11,15 +11,16 @@
   "profiles_generated": 1000,
   "historical_candidates": 34,
   "latest_stable_candidates": 44,
-  "final_candidates": 7,
-  "capture_timestamp": "2026-11-20 18:56:53",
+  "final_candidates": 8,
+  "capture_timestamp": "2026-11-23 22:23:46",
   "final_candidate_stocks": [
-    "ASIANPAINT",
     "BAJAJHLDNG",
-    "DABUR",
-    "JSWSTEEL",
+    "INDUSTOWER",
+    "JINDALSTEL",
+    "LGEINDIA",
     "MOTHERSON",
-    "OBEROIRLTY",
+    "ONGC",
+    "RECLTD",
     "SUNPHARMA"
   ]
 }
